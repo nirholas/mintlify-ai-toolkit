@@ -136,3 +136,6 @@ From a single command, you now have:
 - ✅ TypeScript types for API endpoints
 
 This is your secret weapon for building MCP servers quickly! 🚀
+
+
+Built with ❤️ by [nich](https://x.com/nichxbt)👉[on Github](https://github.com/nirholas)

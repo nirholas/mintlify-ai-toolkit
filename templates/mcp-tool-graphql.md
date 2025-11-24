@@ -323,3 +323,5 @@ lens_query_publications
 - [ ] Sorting options available
 - [ ] Required fields marked correctly
 - [ ] Descriptions reference GraphQL fields
+
+Built with ❤️ by [nich](https://x.com/nichxbt)👉[on Github](https://github.com/nirholas)

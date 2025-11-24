@@ -185,3 +185,6 @@ Connect with Claude Desktop:
 - Monitor gas prices
 
 This is how you build MCP servers in minutes instead of days! 🚀
+
+
+Built with ❤️ by [nich](https://x.com/nichxbt)👉[on Github](https://github.com/nirholas)

@@ -4,10 +4,10 @@
 # Usage in your other repo:
 #   1. Create this script in your repo root
 #   2. chmod +x TRANSFER.sh
-#   3. ./TRANSFER.sh /path/to/Lyra/tools/mintlify-scraper
+#   3. ./TRANSFER.sh /path/to/[insert_user]/tools/[insert_repo_name]
 #   or just run commands below manually
 
-SOURCE_DIR="${1:-../Lyra/tools/mintlify-scraper}"
+SOURCE_DIR="${1:-../[insert_user]/tools/[insert_repo_name]}"
 
 echo "📦 Transferring Mintlify Scraper from: $SOURCE_DIR"
 

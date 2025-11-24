@@ -427,3 +427,6 @@ class Cache {
 - [ ] Updated README
 - [ ] Added environment variables
 - [ ] Built for production
+
+
+Built with ❤️ by [nich](https://x.com/nichxbt)👉[on Github](https://github.com/nirholas)

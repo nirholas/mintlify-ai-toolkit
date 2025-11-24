@@ -230,3 +230,6 @@ When parsing API docs, look for:
 - [ ] Optional parameters have defaults documented
 - [ ] Enums defined where applicable
 - [ ] Examples would work in practice
+
+
+Built with ❤️ by [nich](https://x.com/nichxbt)👉[on Github](https://github.com/nirholas)
