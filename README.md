@@ -1,6 +1,6 @@
-# 🔧 Mintlify Documentation Scraper & MCP Development Tool
+# 🔧 Mintlify Documentation Download & MCP Development Tool Run and Save Any Mintlify Docs (No More Excessive Copy + Paste)
 
-> **The secret weapon for building MCP servers** - Scrapes complete documentation from any Mintlify-based site and transforms it into AI-readable formats, MCP tool definitions, and client code.
+> **The secret weapon for building MCP servers** - Downloads and saves complete documentation from any Mintlify-based site and transforms it into AI-readable formats, MCP tool definitions, and client code. Run and save any mintlify docs site. Stop the excessive copy and pastes.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -14,7 +14,7 @@
 - Require manual translation to tool definitions
 - Time-consuming to integrate
 
-**Solution:** This scraper automatically:
+**Solution:** This download tool automatically:
 1. ✅ Downloads complete documentation from Mintlify sites
 2. ✅ Converts to AI-readable markdown
 3. ✅ Generates MCP tool definitions
@@ -227,7 +227,7 @@ npm run scrape-docs -- https://docs.mcp-server.com \
 **Time:** Days to weeks
 
 ### With This Tool
-1. ✅ Auto-scrape complete docs (100+ pages in minutes)
+1. ✅ Auto-download complete docs (100+ pages in minutes)
 2. ✅ AI-readable format instantly
 3. ✅ Generate client code automatically
 4. ✅ Auto-create MCP tools
@@ -265,7 +265,7 @@ Works with **any Mintlify-based documentation** including:
 
 ## 💡 MCP Development Workflow
 
-### Step 1: Scrape Documentation
+### Step 1: Download Documentation
 ```bash
 npm run scrape-docs -- https://docs.etherscan.io --output ./output/etherscan
 ```
@@ -415,7 +415,7 @@ Ideas for improvements:
 - **Documentation research:** One `COMPLETE.md` file
 - **MCP tool creation:** Auto-generated
 - **Code example collection:** Organized by language
-- **Keeping up with changes:** Re-run scraper
+- **Keeping up with changes:** Re-run download script
 
 ---
 
