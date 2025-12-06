@@ -93,23 +93,17 @@
     "langchain",
     "ai-agent",
     "autonomous",
-    "knowledge-base"
-  ],
+    "knowledge-base",
     "vector-database",
     "ai-context",
     "typescript-generator",
     "code-extractor",
-    "openai",
-    "langchain",
-    "anthropic",
-    "cursor",
-    "claude"
+    "cursor"
   ],
-  "author": "nirholas",
-  "license": "MIT",
   "devDependencies": {
     "@types/node": "^22.10.1",
     "cheerio": "^1.1.2",
+    "tsup": "^8.0.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   },
