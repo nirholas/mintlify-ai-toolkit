@@ -184,7 +184,6 @@ Connect with Claude Desktop:
 - Build transactions
 - Monitor gas prices
 
-This is how you build MCP servers in minutes instead of days! 🚀
+---
 
-
-Built with ❤️ by [nich](https://x.com/nichxbt)👉[on Github](https://github.com/nirholas)
+[View on GitHub](https://github.com/nirholas/mintlify-ai-toolkit)

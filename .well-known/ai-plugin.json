@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Mintlify AI Toolkit",
+  "name_for_model": "mintlify_toolkit",
+  "description_for_human": "Complete AI toolkit for documentation - scrape, generate MCP servers, create chatbots, add vector search, and publish Mintlify sites.",
+  "description_for_model": "This toolkit helps AI agents work with documentation. It can: 1) Scrape any Mintlify documentation site 10-100x faster using Trieve API, 2) Generate complete MCP servers for Claude Desktop, 3) Create vector search indexes for semantic discovery, 4) Export chatbot training data for GPT/Claude/LLaMA fine-tuning, 5) Publish beautiful Mintlify documentation sites with all components. Perfect for: automating documentation workflows, building AI assistants from docs, creating searchable knowledge bases, and migrating/rebranding documentation.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://raw.githubusercontent.com/nirholas/mintlify-ai-toolkit/main/.well-known/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://nirholas.github.io/mintlify-ai-toolkit/logo.png",
+  "contact_email": "support@mintlify-ai-toolkit.dev",
+  "legal_info_url": "https://github.com/nirholas/mintlify-ai-toolkit/blob/main/LICENSE"
+}

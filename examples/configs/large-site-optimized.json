@@ -1,0 +1,68 @@
+{
+  "$comment": "Optimized configuration for fast scraping of large documentation sites",
+  "index_uid": "large-docs",
+  "start_urls": [
+    {
+      "url": "https://docs.bigsite.com/",
+      "page_rank": 10
+    }
+  ],
+  "sitemap_urls": [
+    "https://docs.bigsite.com/sitemap-main.xml",
+    "https://docs.bigsite.com/sitemap-api.xml",
+    "https://docs.bigsite.com/sitemap-guides.xml"
+  ],
+  "stop_urls": [
+    "/changelog/.*",
+    "/release-notes/.*",
+    "/blog/.*",
+    "\\.pdf$"
+  ],
+  "trieve": {
+    "enabled": true,
+    "$comment": "Trieve API provides massive speed boost for large sites"
+  },
+  "selectors": {
+    "default": {
+      "lvl0": "h1",
+      "lvl1": "h2",
+      "lvl2": "h3",
+      "text": "p, li",
+      "code": "pre code"
+    }
+  },
+  "selectors_exclude": [
+    "nav",
+    "footer",
+    ".sidebar",
+    ".toc",
+    "script",
+    "style",
+    ".ads",
+    ".feedback"
+  ],
+  "min_indexed_level": 1,
+  "$comment": "Skip pages without at least lvl0 and lvl1 headings",
+  "output": {
+    "format": "markdown",
+    "structure": "per-section",
+    "include_metadata": false,
+    "$comment": "Skip metadata to reduce file size",
+    "preserve_code_blocks": true
+  },
+  "crawling": {
+    "max_concurrent": 10,
+    "$comment": "Higher concurrency for speed",
+    "delay_ms": 300,
+    "$comment": "Shorter delay if server can handle it",
+    "max_retries": 2,
+    "timeout_ms": 20000,
+    "skip_empty": true,
+    "$comment": "Skip empty pages to save time"
+  },
+  "progress": {
+    "save_state": true,
+    "state_file": ".large-scraper-state.json",
+    "$comment": "Essential for resuming large scrapes"
+  }
+}

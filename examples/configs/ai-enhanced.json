@@ -1,0 +1,33 @@
+{
+  "$comment": "AI-enhanced scraping configuration",
+  "index_uid": "ai-enhanced-docs",
+  "start_urls": ["https://docs.example.com/"],
+  "selectors": {
+    "default": {
+      "lvl0": "h1",
+      "lvl1": "h2",
+      "text": "p, li",
+      "code": "pre code"
+    }
+  },
+  "output": {
+    "format": "markdown",
+    "structure": "per-section",
+    "include_metadata": true
+  },
+  "ai": {
+    "provider": "openai",
+    "apiKey": "${OPENAI_API_KEY}",
+    "model": "gpt-4",
+    "features": {
+      "summarize": true,
+      "extractKeyPoints": true,
+      "explainCode": true,
+      "scoreQuality": true,
+      "classifySections": true,
+      "detectMissing": true
+    }
+  },
+  "$comment_ai_providers": "Supported: openai, anthropic (Claude), local (Ollama/LM Studio), none",
+  "$comment_ai_local": "For local LLMs, set baseUrl to http://localhost:11434 (Ollama) or http://localhost:1234 (LM Studio)"
+}

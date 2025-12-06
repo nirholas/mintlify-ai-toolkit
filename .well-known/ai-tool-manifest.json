@@ -1,0 +1,299 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["manifestVersion", "name", "description", "capabilities"],
+  "properties": {
+    "manifestVersion": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "AI Tool Manifest version"
+    },
+    "name": {
+      "type": "string",
+      "const": "mintlify-ai-toolkit"
+    },
+    "displayName": {
+      "type": "string",
+      "const": "Mintlify AI Toolkit"
+    },
+    "description": {
+      "type": "string",
+      "const": "Complete AI toolkit for documentation: scrape 10-100x faster, generate MCP servers, create vector search, export chatbot data, publish Mintlify sites"
+    },
+    "version": {
+      "type": "string",
+      "const": "1.5.0"
+    },
+    "author": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "const": "nirholas" },
+        "url": { "type": "string", "const": "https://github.com/nirholas" }
+      }
+    },
+    "repository": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "git" },
+        "url": { "type": "string", "const": "https://github.com/nirholas/mintlify-ai-toolkit" }
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "const": [
+        {
+          "id": "scrape-docs",
+          "name": "Documentation Scraping",
+          "description": "Scrape any Mintlify documentation site 10-100x faster using Trieve API",
+          "input": {
+            "url": "string (required) - Documentation URL",
+            "output": "string - Output directory",
+            "useTrieveAPI": "boolean - Use Trieve API for speed"
+          },
+          "output": {
+            "type": "structured-markdown",
+            "format": "individual-files + COMPLETE.md + INDEX.md + metadata.json"
+          },
+          "command": "npm run scrape -- <url> --output <path>",
+          "cost": "free",
+          "speed": "10-100x faster than HTML scraping"
+        },
+        {
+          "id": "generate-mcp",
+          "name": "MCP Server Generation",
+          "description": "Convert documentation into Model Context Protocol server for Claude Desktop",
+          "input": {
+            "docsDir": "string (required) - Scraped docs directory"
+          },
+          "output": {
+            "type": "mcp-server",
+            "includes": ["TypeScript server", "Tool handlers", "Types", "Config"]
+          },
+          "command": "npm run docs-to-mcp -- <url>",
+          "cost": "free",
+          "readyFor": "Claude Desktop, MCP clients"
+        },
+        {
+          "id": "vector-search",
+          "name": "Vector Search Index",
+          "description": "Create semantic search index for finding content by meaning",
+          "input": {
+            "docsDir": "string (required)",
+            "provider": "openai | local | cohere",
+            "apiKey": "string - For OpenAI/Cohere"
+          },
+          "output": {
+            "type": "vector-index",
+            "format": "JSON with embeddings",
+            "searchCapabilities": ["semantic", "hybrid", "related-docs", "auto-suggest"]
+          },
+          "command": "npm run create-vector-index -- --docs-dir <path> --provider <name>",
+          "cost": "$0.01 per 1K pages (OpenAI) or FREE (local)",
+          "speed": "~100 pages/minute"
+        },
+        {
+          "id": "chatbot-export",
+          "name": "Chatbot Training Data",
+          "description": "Export Q&A pairs for fine-tuning GPT, Claude, LLaMA, or Custom GPTs",
+          "input": {
+            "docsDir": "string (required)",
+            "format": "openai-jsonl | llama | claude | generic-json | csv",
+            "generateQA": "boolean - Use AI to generate Q&A",
+            "apiKey": "string - For AI generation"
+          },
+          "output": {
+            "type": "training-data",
+            "formats": ["JSONL", "TXT", "JSON", "CSV"],
+            "includes": ["train set", "validation set"]
+          },
+          "command": "npm run export-chatbot-data -- --docs-dir <path> --format <format>",
+          "cost": "$0.10 per 1K pages (AI) or FREE (manual)",
+          "yield": "3-10 Q&A pairs per page"
+        },
+        {
+          "id": "publish-mintlify",
+          "name": "Mintlify Site Publisher",
+          "description": "Publish complete Mintlify documentation site with all components",
+          "input": {
+            "docsDir": "string (required)",
+            "name": "string - Site name",
+            "domain": "string - Custom domain",
+            "color": "string - Brand color",
+            "analytics": "object - GA4, Mixpanel, PostHog",
+            "features": "object - Feedback, API playground"
+          },
+          "output": {
+            "type": "mintlify-site",
+            "includes": [
+              "mint.json",
+              "All MDX components",
+              "Analytics integration",
+              "Feedback widgets",
+              "API playground",
+              "Snippets",
+              "Examples"
+            ]
+          },
+          "command": "npm run publish-mintlify -- <docsDir> --name <name>",
+          "cost": "free",
+          "deployTo": "Mintlify, Vercel, Netlify"
+        },
+        {
+          "id": "ai-context",
+          "name": "AI Context Generator",
+          "description": "Generate .cursorrules, .clinerules, and other AI context files",
+          "command": "npm run generate-ai-context -- <docsDir>",
+          "cost": "free"
+        },
+        {
+          "id": "ai-tools",
+          "name": "AI Tool Definitions",
+          "description": "Generate tool definitions for OpenAI, Anthropic, LangChain, Vercel AI, Gemini, AWS Bedrock",
+          "command": "npm run generate-ai-tools -- <docsDir>",
+          "cost": "free"
+        },
+        {
+          "id": "rag-chunks",
+          "name": "RAG Generator",
+          "description": "Generate semantic chunks for RAG with Pinecone, Weaviate, Chroma, Qdrant, Milvus",
+          "command": "npm run generate-rag -- <docsDir>",
+          "cost": "free"
+        },
+        {
+          "id": "typescript-types",
+          "name": "TypeScript Types",
+          "description": "Auto-generate TypeScript interfaces and Zod schemas from API docs",
+          "command": "npm run generate-types -- <docsDir>",
+          "cost": "free"
+        },
+        {
+          "id": "code-extractor",
+          "name": "Code Example Extractor",
+          "description": "Extract and organize code examples by language with tests",
+          "command": "npm run extract-code -- <docsDir>",
+          "cost": "free"
+        }
+      ]
+    },
+    "installation": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["npm", "git", "npx"]
+        },
+        "commands": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "const": {
+        "npm": "npm install -g @nirholas/mintlify-scraper",
+        "npx": "npx @nirholas/mintlify-scraper scrape <url>",
+        "git": "git clone https://github.com/nirholas/mintlify-ai-toolkit.git && cd mintlify-ai-toolkit && npm install"
+      }
+    },
+    "aiIntegrations": {
+      "type": "array",
+      "const": [
+        {
+          "platform": "Claude Desktop",
+          "method": "MCP Server",
+          "status": "ready",
+          "docs": "https://github.com/nirholas/mintlify-ai-toolkit#mcp-server-generator"
+        },
+        {
+          "platform": "Cursor",
+          "method": ".cursorrules",
+          "status": "ready",
+          "docs": "https://github.com/nirholas/mintlify-ai-toolkit#ai-context-generator"
+        },
+        {
+          "platform": "Cline",
+          "method": ".clinerules",
+          "status": "ready",
+          "docs": "https://github.com/nirholas/mintlify-ai-toolkit#ai-context-generator"
+        },
+        {
+          "platform": "Windsurf",
+          "method": ".windsurfrules",
+          "status": "ready",
+          "docs": "https://github.com/nirholas/mintlify-ai-toolkit#ai-context-generator"
+        },
+        {
+          "platform": "OpenAI GPT",
+          "method": "Function Calling",
+          "status": "ready",
+          "docs": "https://github.com/nirholas/mintlify-ai-toolkit#ai-tool-definitions"
+        },
+        {
+          "platform": "Custom GPT",
+          "method": "Knowledge Base",
+          "status": "ready",
+          "docs": "https://github.com/nirholas/mintlify-ai-toolkit/blob/main/CHATBOT-TRAINING.md"
+        },
+        {
+          "platform": "LangChain",
+          "method": "Tool Definitions",
+          "status": "ready",
+          "docs": "https://github.com/nirholas/mintlify-ai-toolkit#ai-tool-definitions"
+        },
+        {
+          "platform": "Vercel AI SDK",
+          "method": "Tool Definitions",
+          "status": "ready",
+          "docs": "https://github.com/nirholas/mintlify-ai-toolkit#ai-tool-definitions"
+        }
+      ]
+    },
+    "useCases": {
+      "type": "array",
+      "const": [
+        "Scrape competitor documentation for analysis",
+        "Generate MCP servers for Claude Desktop integration",
+        "Create semantic search for documentation sites",
+        "Fine-tune GPT/Claude on your documentation",
+        "Migrate documentation to Mintlify",
+        "Build AI assistants from documentation",
+        "Create searchable knowledge bases",
+        "Extract API schemas for code generation",
+        "Rebrand and republish documentation"
+      ]
+    },
+    "keywords": {
+      "type": "array",
+      "const": [
+        "documentation",
+        "scraper",
+        "mintlify",
+        "mcp",
+        "model-context-protocol",
+        "vector-search",
+        "semantic-search",
+        "chatbot",
+        "gpt",
+        "claude",
+        "ai-toolkit",
+        "rag",
+        "embeddings",
+        "fine-tuning",
+        "openai",
+        "anthropic",
+        "langchain"
+      ]
+    },
+    "aiDiscovery": {
+      "type": "object",
+      "const": {
+        "manifestUrl": "https://raw.githubusercontent.com/nirholas/mintlify-ai-toolkit/main/.well-known/ai-tool-manifest.json",
+        "pluginUrl": "https://raw.githubusercontent.com/nirholas/mintlify-ai-toolkit/main/.well-known/ai-plugin.json",
+        "openapiUrl": "https://raw.githubusercontent.com/nirholas/mintlify-ai-toolkit/main/.well-known/openapi.yaml",
+        "robotsTxt": "https://nirholas.github.io/mintlify-ai-toolkit/robots.txt",
+        "sitemapUrl": "https://nirholas.github.io/mintlify-ai-toolkit/sitemap.xml"
+      }
+    }
+  }
+}

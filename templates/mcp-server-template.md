@@ -428,5 +428,6 @@ class Cache {
 - [ ] Added environment variables
 - [ ] Built for production
 
+---
 
-Built with ❤️ by [nich](https://x.com/nichxbt)👉[on Github](https://github.com/nirholas)
+[View on GitHub](https://github.com/nirholas/mintlify-ai-toolkit)

@@ -1,0 +1,46 @@
+{
+  "$comment": "Configuration for scraping protected/authenticated documentation",
+  "index_uid": "protected-docs",
+  "start_urls": [
+    "https://docs.internal.example.com/"
+  ],
+  "sitemap_urls": [
+    "https://docs.internal.example.com/sitemap.xml"
+  ],
+  "authentication": {
+    "type": "bearer",
+    "token": "${DOCS_AUTH_TOKEN}",
+    "$comment": "Set DOCS_AUTH_TOKEN environment variable or replace with actual token"
+  },
+  "selectors": {
+    "default": {
+      "lvl0": "h1",
+      "lvl1": "h2",
+      "lvl2": "h3",
+      "text": "p, li",
+      "code": "pre code"
+    }
+  },
+  "selectors_exclude": [
+    "nav",
+    "footer",
+    ".internal-only-banner",
+    "script",
+    "style"
+  ],
+  "output": {
+    "format": "markdown",
+    "structure": "per-section",
+    "include_metadata": true
+  },
+  "crawling": {
+    "max_concurrent": 2,
+    "delay_ms": 1500,
+    "max_retries": 5,
+    "timeout_ms": 45000
+  },
+  "progress": {
+    "save_state": true,
+    "state_file": ".protected-scraper-state.json"
+  }
+}

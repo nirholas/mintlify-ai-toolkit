@@ -1,0 +1,69 @@
+{
+  "$comment": "Batch scraping configuration - scrape multiple sites in parallel",
+  "maxParallel": 3,
+  "continueOnError": true,
+  "globalConfig": {
+    "trieve": {
+      "enabled": true
+    },
+    "output": {
+      "format": "markdown",
+      "structure": "per-section"
+    },
+    "crawling": {
+      "max_concurrent": 3,
+      "delay_ms": 1000
+    }
+  },
+  "jobs": [
+    {
+      "id": "privy",
+      "name": "Privy Documentation",
+      "url": "https://docs.privy.io",
+      "outputDir": "./batch-output/privy",
+      "priority": 10,
+      "status": "pending"
+    },
+    {
+      "id": "etherscan",
+      "name": "Etherscan Documentation",
+      "url": "https://docs.etherscan.io",
+      "outputDir": "./batch-output/etherscan",
+      "priority": 8,
+      "status": "pending"
+    },
+    {
+      "id": "1inch",
+      "name": "1inch Documentation",
+      "url": "https://docs.1inch.io",
+      "outputDir": "./batch-output/1inch",
+      "priority": 7,
+      "status": "pending"
+    },
+    {
+      "id": "stripe",
+      "name": "Stripe API Documentation",
+      "configFile": "./examples/configs/api-reference.json",
+      "outputDir": "./batch-output/stripe",
+      "priority": 9,
+      "status": "pending"
+    },
+    {
+      "id": "custom-api",
+      "name": "Custom API Docs",
+      "config": {
+        "start_urls": ["https://api.example.com/docs"],
+        "selectors": {
+          "default": {
+            "lvl0": "h1",
+            "lvl1": "h2",
+            "text": "p, li"
+          }
+        }
+      },
+      "outputDir": "./batch-output/custom-api",
+      "priority": 5,
+      "status": "pending"
+    }
+  ]
+}

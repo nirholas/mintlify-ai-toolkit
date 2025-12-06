@@ -1,0 +1,69 @@
+{
+  "$comment": "Configuration for scraping API reference documentation with custom selectors",
+  "index_uid": "api-docs",
+  "start_urls": [
+    {
+      "url": "https://api.example.com/docs/",
+      "page_rank": 10,
+      "tags": ["overview"]
+    },
+    {
+      "url": "https://api.example.com/reference/",
+      "page_rank": 8,
+      "selectors_key": "api",
+      "tags": ["api", "reference"]
+    }
+  ],
+  "sitemap_urls": [
+    "https://api.example.com/sitemap.xml"
+  ],
+  "stop_urls": [
+    "/changelog",
+    "/blog",
+    "/pricing",
+    "/contact"
+  ],
+  "selectors": {
+    "default": {
+      "lvl0": {
+        "selector": "h1, .page-title",
+        "default_value": "Documentation"
+      },
+      "lvl1": "h2, .section-title",
+      "lvl2": "h3",
+      "text": ".content p, .content li",
+      "code": "pre code, .code-sample"
+    },
+    "api": {
+      "lvl0": {
+        "selector": ".api-header h1",
+        "default_value": "API Reference"
+      },
+      "lvl1": ".endpoint-group",
+      "lvl2": ".endpoint-name",
+      "text": ".endpoint-description, .parameter-description",
+      "code": ".request-example, .response-example, pre code"
+    }
+  },
+  "selectors_exclude": [
+    "nav",
+    "footer",
+    ".sidebar",
+    ".api-explorer",
+    ".try-it-button",
+    "script",
+    "style"
+  ],
+  "output": {
+    "format": "both",
+    "structure": "per-section",
+    "include_metadata": true,
+    "preserve_code_blocks": true
+  },
+  "crawling": {
+    "max_concurrent": 5,
+    "delay_ms": 500,
+    "max_retries": 3,
+    "timeout_ms": 30000
+  }
+}

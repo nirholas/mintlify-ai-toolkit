@@ -1,0 +1,24 @@
+{
+  "format": "openai-jsonl",
+  "qaGeneration": {
+    "enabled": true,
+    "provider": "openai",
+    "apiKey": "${OPENAI_API_KEY}",
+    "model": "gpt-4o-mini",
+    "questionsPerSection": 3
+  },
+  "validation": {
+    "enabled": true,
+    "splitRatio": 0.8
+  },
+  "quality": {
+    "minAnswerLength": 50,
+    "maxAnswerLength": 2000,
+    "requireCodeExamples": false
+  },
+  "systemPrompt": "You are a helpful documentation assistant. Provide clear, accurate, and detailed responses based on the documentation. Include code examples when relevant and explain technical concepts in an accessible way.",
+  "metadata": {
+    "name": "OpenAI Chatbot Training Data",
+    "description": "Generate Q&A pairs for fine-tuning GPT-3.5/4 models"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "index_uid": "example-docs",
+  "start_urls": [
+    {
+      "url": "https://docs.example.com/",
+      "page_rank": 5,
+      "tags": ["getting-started"]
+    },
+    {
+      "url": "https://docs.example.com/api/",
+      "page_rank": 3,
+      "selectors_key": "api"
+    }
+  ],
+  "stop_urls": [
+    "/changelog/",
+    "/blog/",
+    "\\.pdf$"
+  ],
+  "sitemap_urls": [
+    "https://docs.example.com/sitemap.xml"
+  ],
+  "sitemap_alternate_links": true,
+  "allowed_domains": ["docs.example.com"],
+  "selectors": {
+    "default": {
+      "lvl0": {
+        "selector": ".docs-content h1",
+        "global": false,
+        "default_value": "Documentation"
+      },
+      "lvl1": ".docs-content h2",
+      "lvl2": ".docs-content h3",
+      "lvl3": ".docs-content h4",
+      "text": ".docs-content p, .docs-content li",
+      "code": "pre code, .code-block, .highlight"
+    },
+    "api": {
+      "lvl0": {
+        "selector": ".api-nav .active",
+        "global": true,
+        "default_value": "API Reference"
+      },
+      "lvl1": ".api-content h1",
+      "lvl2": ".api-content h2",
+      "lvl3": ".api-content h3",
+      "text": ".api-content p, .api-content li",
+      "code": "pre code, .code-sample"
+    }
+  },
+  "selectors_exclude": [
+    "nav",
+    "footer",
+    ".sidebar",
+    ".table-of-contents",
+    ".breadcrumbs",
+    ".ads",
+    ".cookie-banner",
+    "script",
+    "style"
+  ],
+  "scrape_start_urls": true,
+  "min_indexed_level": 0,
+  "only_content_level": false,
+  "js_render": false,
+  "js_wait": 0,
+  "authentication": {
+    "type": "none"
+  },
+  "trieve": {
+    "enabled": true,
+    "api_key": "",
+    "dataset_id": ""
+  },
+  "output": {
+    "format": "markdown",
+    "structure": "per-section",
+    "include_metadata": true,
+    "preserve_code_blocks": true
+  },
+  "crawling": {
+    "max_concurrent": 3,
+    "delay_ms": 1000,
+    "max_retries": 3,
+    "timeout_ms": 30000,
+    "skip_empty": true,
+    "follow_redirects": true
+  },
+  "progress": {
+    "save_state": true,
+    "state_file": ".scraper-state.json"
+  }
+}

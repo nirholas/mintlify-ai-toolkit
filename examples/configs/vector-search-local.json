@@ -1,0 +1,20 @@
+{
+  "provider": "local",
+  "model": "all-MiniLM-L6-v2",
+  "vectorStore": "local",
+  "vectorStoreConfig": {
+    "path": "./vector-search-index.json"
+  },
+  "features": {
+    "semanticSearch": true,
+    "hybridSearch": true,
+    "autoSuggest": true,
+    "relatedDocs": true
+  },
+  "chunkSize": 1000,
+  "chunkOverlap": 200,
+  "metadata": {
+    "name": "Local Vector Search (FREE)",
+    "description": "Semantic search using local sentence-transformers - no API costs!"
+  }
+}

@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mintlify Docs Scraper - Fast Documentation Download with Dark Mode & Live Stats</title>
+    <meta name="description" content="Download Mintlify documentation optimized for AI agents (Claude, ChatGPT) and Web3/crypto projects (DeFi, blockchain, smart contracts). Features dark mode, live stats, 10-100x faster Trieve API. Perfect for RAG systems, autonomous agents, and blockchain developers.">
+    <meta name="keywords" content="mintlify, documentation, scraper, AI agents, Claude, ChatGPT, RAG, web3, crypto, blockchain, DeFi, smart contracts, ethereum, markdown, autonomous agents, LLM, AI integration">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nirholas.github.io/mintlify-ai-toolkit">
+    <meta property="og:title" content="Mintlify Docs Scraper - Fast Documentation Download">
+    <meta property="og:description" content="Download Mintlify docs optimized for AI agents & Web3 projects. Perfect for Claude, ChatGPT, RAG systems, DeFi, and blockchain development. 10-100x faster with Trieve API.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://nirholas.github.io/mintlify-ai-toolkit">
+    <meta property="twitter:title" content="Mintlify Docs Scraper - Fast Documentation Download">
+    <meta property="twitter:description" content="Download complete Mintlify documentation with dark mode, live stats, and 10-100x faster scraping.">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: background 0.3s;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        body.dark-mode .container {
+            background: #2d2d44;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode h1,
+        body.dark-mode label,
+        body.dark-mode .status {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .subtitle,
+        body.dark-mode .examples,
+        body.dark-mode .info-box {
+            color: #b0b0b0;
+        }
+
+        body.dark-mode input[type="url"],
+        body.dark-mode .log-container {
+            background: #1a1a2e;
+            border-color: #404060;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .info-box {
+            background: #1a1a2e;
+            border-left-color: #667eea;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 700px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        input[type="url"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input[type="url"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .examples {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .examples a {
+            color: #667eea;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+
+        .examples a:hover {
+            text-decoration: underline;
+        }
+
+        .options {
+            margin-bottom: 25px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            font-weight: 400;
+            cursor: pointer;
+        }
+
+        .scrape-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .scrape-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .scrape-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .progress-container.visible {
+            display: block;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .status {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .log-container {
+            background: #f8f8f8;
+            border-radius: 8px;
+            padding: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+
+        .log-entry {
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .log-entry.success {
+            color: #22c55e;
+        }
+
+        .log-entry.error {
+            color: #ef4444;
+        }
+
+        .log-entry.warning {
+            color: #f59e0b;
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .info-box {
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+        }
+
+        .info-box h3 {
+            color: #333;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .info-box li {
+            margin-bottom: 4px;
+        }
+
+        .header-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .dark-mode-toggle {
+            background: rgba(102, 126, 234, 0.1);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background 0.3s;
+        }
+
+        .dark-mode-toggle:hover {
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+            display: none;
+        }
+
+        .stats-container.visible {
+            display: grid;
+        }
+
+        .stat-card {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        body.dark-mode .stat-card {
+            background: #1a1a2e;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .advanced-toggle {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            padding: 0;
+            text-decoration: underline;
+        }
+
+        .advanced-toggle:hover {
+            color: #764ba2;
+        }
+
+        .advanced-options {
+            display: none;
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        body.dark-mode .advanced-options {
+            background: #1a1a2e;
+        }
+
+        .advanced-options.visible {
+            display: block;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .input-small {
+            width: 100%;
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        body.dark-mode .input-small {
+            background: #2d2d44;
+            border-color: #404060;
+            color: #e0e0e0;
+        }
+
+        .history-container {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .history-container.visible {
+            display: block;
+        }
+
+        .history-item {
+            background: #f8f8f8;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 0.85rem;
+        }
+
+        .history-item:hover {
+            background: #e8e8e8;
+        }
+
+        body.dark-mode .history-item {
+            background: #1a1a2e;
+        }
+
+        body.dark-mode .history-item:hover {
+            background: #252540;
+        }
+
+        .clear-history {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-decoration: underline;
+            margin-top: 10px;
+        }
+
+        .help-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            z-index: 1000;
+        }
+
+        .help-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .badge {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        body.dark-mode .badge {
+            background: rgba(102, 126, 234, 0.2);
+            color: #a8b8ff;
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        /* Search Modal */
+        .search-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            animation: fadeIn 0.2s;
+        }
+
+        .search-modal.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 10vh;
+        }
+
+        .search-content {
+            background: white;
+            width: 90%;
+            max-width: 700px;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-height: 80vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.dark-mode .search-content {
+            background: #2d2d44;
+        }
+
+        .search-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        body.dark-mode .search-header {
+            border-bottom-color: #444;
+        }
+
+        .search-input-wrapper {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+        }
+
+        body.dark-mode .search-input {
+            background: #1a1a2e;
+            border-color: #444;
+            color: #e0e0e0;
+        }
+
+        .search-close {
+            padding: 12px 20px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .search-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-filter-btn {
+            padding: 6px 12px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .search-filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        body.dark-mode .search-filter-btn {
+            background: #333;
+            border-color: #555;
+            color: #e0e0e0;
+        }
+
+        .search-results {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .search-result-item {
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .search-result-item:hover {
+            border-color: #667eea;
+            background: #f9f9f9;
+            transform: translateX(5px);
+        }
+
+        body.dark-mode .search-result-item {
+            border-color: #444;
+            background: #333;
+        }
+
+        body.dark-mode .search-result-item:hover {
+            background: #3a3a50;
+        }
+
+        .search-result-title {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-result-meta {
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .search-result-preview {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        body.dark-mode .search-result-preview {
+            color: #aaa;
+        }
+
+        .search-result-preview mark {
+            background: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+
+        body.dark-mode .search-result-preview mark {
+            background: #664d03;
+            color: #fff3cd;
+        }
+
+        .search-no-results {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .secondary-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+
+            .help-button {
+                bottom: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
+            }
+
+            .button-group {
+                flex-direction: column !important;
+            }
+
+            .search-content {
+                width: 95%;
+                max-height: 85vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-controls">
+            <div></div>
+            <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle dark mode">🌙</button>
+        </div>
+        <h1>🔧 Mintlify Docs Scraper</h1>
+        <p class="subtitle">Download complete documentation from any Mintlify-based site</p>
+        <p class="subtitle" style="margin-top: -20px; font-size: 0.85rem; color: #888;">⚡ Optimized for AI Agents & Web3/Crypto Documentation</p>
+
+        <div class="feature-badges">
+            <span class="badge">🤖 AI Ready</span>
+            <span class="badge">🌐 Web3/Crypto</span>
+            <span class="badge">🎨 Dark Mode</span>
+            <span class="badge">📊 Live Stats</span>
+            <span class="badge">⚡ Fast API</span>
+            <span class="badge">⌨️ Shortcuts</span>
+        </div>
+
+        <div class="stats-container" id="statsContainer">
+            <div class="stat-card">
+                <div class="stat-value" id="statPages">0</div>
+                <div class="stat-label">Pages</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statSections">0</div>
+                <div class="stat-label">Sections</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statCode">0</div>
+                <div class="stat-label">Code Blocks</div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3>✨ Features:</h3>
+            <ul>
+                <li><strong>🤖 AI Agent Ready</strong> - Perfect for Claude, ChatGPT, and autonomous agents</li>
+                <li><strong>🌐 Web3/Crypto Optimized</strong> - Ideal for blockchain, DeFi, NFT docs</li>
+                <li><strong>⚡ Trieve API</strong> - Auto-detects for 10-100x faster scraping</li>
+                <li><strong>🎨 Dark Mode</strong> - Eye-friendly theme (Ctrl+D to toggle)</li>
+                <li><strong>📊 Live Stats</strong> - Track pages, sections, and code blocks in real-time</li>
+                <li><strong>⌨️ Keyboard Shortcuts</strong> - Fast navigation (Ctrl+D, Ctrl+Enter, Esc)</li>
+            </ul>
+        </div>
+
+        <div class="info-box" style="margin-top: 20px;">
+            <h3>📦 What you'll get:</h3>
+            <ul>
+                <li><strong>COMPLETE.md for AI</strong> - Single file ready for Claude, GPT, or RAG systems</li>
+                <li><strong>Smart Contract Docs</strong> - Perfect for Web3, DeFi, blockchain integration</li>
+                <li><strong>Clean Markdown</strong> - Zero CSS/JS artifacts, perfect code preservation</li>
+                <li><strong>Structured Data</strong> - Organized by section with metadata</li>
+            </ul>
+        </div>
+
+        <form id="scrapeForm">
+            <div class="input-group">
+                <label for="docsUrl">Mintlify Documentation URL</label>
+                <input 
+                    type="url" 
+                    id="docsUrl" 
+                    name="docsUrl" 
+                    placeholder="https://docs.example.com"
+                    required
+                />
+                <div class="examples">
+                    🌐 Web3/Crypto: 
+                    <a href="#" data-url="https://docs.etherscan.io">Etherscan</a>
+                    <a href="#" data-url="https://docs.1inch.io">1inch</a>
+                    <a href="#" data-url="https://docs.uniswap.org">Uniswap</a>
+                    <a href="#" data-url="https://docs.privy.io">Privy</a>
+                    <br>
+                    🤖 AI: 
+                    <a href="#" data-url="https://docs.anthropic.com">Anthropic</a>
+                    <a href="#" data-url="https://docs.openai.com">OpenAI</a>
+                    <a href="#" data-url="https://docs.langchain.com">LangChain</a>
+                </div>
+            </div>
+
+            <div class="options">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="includeApiRef" name="includeApiRef" checked>
+                    <label for="includeApiRef">Include API Reference sections</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="useTrieveApi" name="useTrieveApi" checked>
+                    <label for="useTrieveApi">Try Trieve API for faster scraping (10-100x speed)</label>
+                </div>
+            </div>
+
+            <button type="button" class="advanced-toggle" id="advancedToggle">⚙️ Advanced Settings</button>
+            <div class="advanced-options" id="advancedOptions">
+                <div class="input-row">
+                    <div>
+                        <label>Max Concurrent Requests</label>
+                        <input type="number" class="input-small" id="maxConcurrent" value="3" min="1" max="10">
+                    </div>
+                    <div>
+                        <label>Delay (ms)</label>
+                        <input type="number" class="input-small" id="delayMs" value="500" min="100" max="5000" step="100">
+                    </div>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="includeTables" name="includeTables" checked>
+                    <label for="includeTables">Include tables in markdown</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="includeImages" name="includeImages" checked>
+                    <label for="includeImages">Include image links</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="aiOptimized" name="aiOptimized" checked>
+                    <label for="aiOptimized">🤖 AI-optimized format (single context file)</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="web3Focus" name="web3Focus">
+                    <label for="web3Focus">🌐 Extract smart contract addresses & Web3 data</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="aiEnhance" name="aiEnhance" checked>
+                    <label for="aiEnhance">✨ AI quality analysis & suggestions</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="realTimePreview" name="realTimePreview">
+                    <label for="realTimePreview">👁️ Real-time preview window</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="semanticSearch" name="semanticSearch" checked>
+                    <label for="semanticSearch">🔍 Build semantic search index</label>
+                </div>
+            </div>
+
+            <button type="submit" class="scrape-btn" id="scrapeBtn">
+                Start Scraping
+            </button>
+
+            <div class="button-group" style="display: flex; gap: 10px; margin-top: 10px;">
+                <button type="button" class="secondary-btn" id="previewBtn" style="flex: 1; padding: 10px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    👁️ Open Preview
+                </button>
+                <button type="button" class="secondary-btn" id="searchBtn" style="flex: 1; padding: 10px; background: #17a2b8; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    🔍 Search Docs
+                </button>
+            </div>
+        </form>
+
+        <div class="history-container" id="historyContainer">
+            <h3 style="font-size: 0.9rem; margin-bottom: 10px; color: #666;">📜 Recent Scrapes</h3>
+            <div id="historyList"></div>
+            <button class="clear-history" id="clearHistory">Clear History</button>
+        </div>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="status" id="statusText">Initializing...</div>
+            <div class="log-container" id="logContainer"></div>
+        </div>
+
+        <div class="footer">
+            <a href="https://github.com/nirholas/mintlify-ai-toolkit" target="_blank">View on GitHub</a>
+        </div>
+    </div>
+
+    <button class="help-button" id="helpButton" title="Help & Shortcuts">?</button>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-content">
+            <div class="search-header">
+                <div class="search-input-wrapper">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search documentation..." autofocus>
+                    <button class="search-close" id="searchClose">✕</button>
+                </div>
+                <div class="search-filters" id="searchFilters">
+                    <button class="search-filter-btn active" data-filter="all">All</button>
+                    <button class="search-filter-btn" data-filter="title">Titles</button>
+                    <button class="search-filter-btn" data-filter="code">Code</button>
+                </div>
+            </div>
+            <div class="search-results" id="searchResults">
+                <div class="search-no-results">
+                    <p style="font-size: 1.2rem; margin-bottom: 10px;">🔍</p>
+                    <p>Start typing to search documentation...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    
+    <!-- Advanced Features -->
+    <script src="ai-enhancer.js"></script>
+    <script src="semantic-search.js"></script>
+    <script src="realtime-preview.js"></script>
+    
+    <!-- Main Application -->
+    <script src="app.js"></script>
+    
+    <!-- Feature Integration -->
+    <script src="feature-integration.js"></script>
+
+    <script>
+        // Example URL quick fill
+        document.querySelectorAll('.examples a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('docsUrl').value = e.target.dataset.url;
+            });
+        });
+
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            darkModeToggle.textContent = '☀️';
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            darkModeToggle.textContent = isDark ? '☀️' : '🌙';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+
+        // Advanced options toggle
+        const advancedToggle = document.getElementById('advancedToggle');
+        const advancedOptions = document.getElementById('advancedOptions');
+        advancedToggle.addEventListener('click', () => {
+            advancedOptions.classList.toggle('visible');
+            advancedToggle.textContent = advancedOptions.classList.contains('visible') 
+                ? '⚙️ Hide Advanced Settings' 
+                : '⚙️ Advanced Settings';
+        });
+
+        // History management
+        const clearHistory = document.getElementById('clearHistory');
+        clearHistory.addEventListener('click', () => {
+            if (confirm('Clear all scraping history?')) {
+                localStorage.removeItem('scrapeHistory');
+                updateHistoryDisplay();
+            }
+        });
+
+        function updateHistoryDisplay() {
+            const historyContainer = document.getElementById('historyContainer');
+            const historyList = document.getElementById('historyList');
+            const history = JSON.parse(localStorage.getItem('scrapeHistory') || '[]');
+            
+            if (history.length === 0) {
+                historyContainer.classList.remove('visible');
+                return;
+            }
+
+            historyContainer.classList.add('visible');
+            historyList.innerHTML = history.slice(-5).reverse().map(item => {
+                const date = new Date(item.timestamp).toLocaleDateString();
+                return `<div class="history-item" data-url="${item.url}">
+                    ${item.url} <span style="color: #888; float: right;">${date}</span>
+                </div>`;
+            }).join('');
+
+            // Add click handlers
+            document.querySelectorAll('.history-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    document.getElementById('docsUrl').value = item.dataset.url;
+                });
+            });
+        }
+
+        function addToHistory(url) {
+            const history = JSON.parse(localStorage.getItem('scrapeHistory') || '[]');
+            history.push({
+                url,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('scrapeHistory', JSON.stringify(history.slice(-10)));
+            updateHistoryDisplay();
+        }
+
+        // Initialize history on load
+        updateHistoryDisplay();
+
+        // Export the history function for use in app.js
+        window.addToHistory = addToHistory;
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + D for dark mode toggle
+            if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+                e.preventDefault();
+                darkModeToggle.click();
+            }
+            
+            // Ctrl/Cmd + Enter to start scraping
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                const scrapeBtn = document.getElementById('scrapeBtn');
+                if (!scrapeBtn.disabled) {
+                    scrapeBtn.click();
+                }
+            }
+            
+            // Esc to clear URL input
+            if (e.key === 'Escape') {
+                const urlInput = document.getElementById('docsUrl');
+                if (document.activeElement === urlInput) {
+                    urlInput.value = '';
+                }
+            }
+        });
+
+        // Help button
+        const helpButton = document.getElementById('helpButton');
+        helpButton.addEventListener('click', () => {
+            alert('💡 Keyboard Shortcuts & Tips\n\n' +
+                '⌨️ SHORTCUTS:\n' +
+                '• Ctrl/⌘ + D: Toggle dark mode\n' +
+                '• Ctrl/⌘ + Enter: Start scraping\n' +
+                '• Esc: Clear URL input (when focused)\n\n' +
+                '🚀 QUICK START:\n' +
+                '1. Enter a Mintlify docs URL (Web3/AI/any)\n' +
+                '2. Click example links to quickly fill\n' +
+                '3. Configure options as needed\n' +
+                '4. Start scraping and download ZIP\n\n' +
+                '🤖 AI USE CASES:\n' +
+                '• Load COMPLETE.md into Claude Projects\n' +
+                '• Use with ChatGPT for Q&A on docs\n' +
+                '• Perfect for RAG systems & embeddings\n' +
+                '• Feed to autonomous agents & LangChain\n' +
+                '• LLM fine-tuning dataset creation\n\n' +
+                '🌐 WEB3/CRYPTO:\n' +
+                '• Enable Web3 Focus for contract extraction\n' +
+                '• Perfect for DeFi protocol docs\n' +
+                '• Smart contract address detection\n' +
+                '• Blockchain API documentation\n\n' +
+                '💡 TIPS:\n' +
+                '• Enable Trieve API for 10-100x speed\n' +
+                '• AI-optimized format creates single context file\n' +
+                '• Web3 mode extracts contract addresses\n' +
+                '• History saved locally in your browser\n' +
+                '• Use Advanced Settings for control\n' +
+                '• All processing happens client-side\n' +
+                '• Dark mode preference is saved');
+        });
+
+        // Show keyboard shortcuts on first visit
+        if (!localStorage.getItem('hasVisited')) {
+            setTimeout(() => {
+                alert('💡 Welcome to Mintlify Docs Scraper!\n\n' +
+                    '🤖 AI & Web3 Optimized Tool\n\n' +
+                    'Perfect for:\n' +
+                    '• Claude Projects & ChatGPT context\n' +
+                    '• DeFi, NFT, blockchain docs\n' +
+                    '• RAG systems & autonomous agents\n' +
+                    '• Smart contract documentation\n\n' +
+                    'Keyboard Shortcuts:\n' +
+                    '• Ctrl/Cmd + D: Toggle dark mode\n' +
+                    '• Ctrl/Cmd + Enter: Start scraping\n' +
+                    '• Esc: Clear URL input\n\n' +
+                    'Click the ? button anytime for help!\n\n' +
+                    '⚡ Try the example links to get started!');
+                localStorage.setItem('hasVisited', 'true');
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

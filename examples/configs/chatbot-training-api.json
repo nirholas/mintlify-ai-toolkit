@@ -1,0 +1,24 @@
+{
+  "format": "openai-jsonl",
+  "qaGeneration": {
+    "enabled": true,
+    "provider": "openai",
+    "apiKey": "${OPENAI_API_KEY}",
+    "model": "gpt-4o-mini",
+    "questionsPerSection": 5
+  },
+  "validation": {
+    "enabled": true,
+    "splitRatio": 0.8
+  },
+  "quality": {
+    "minAnswerLength": 100,
+    "maxAnswerLength": 1500,
+    "requireCodeExamples": true
+  },
+  "systemPrompt": "You are an expert API documentation assistant. Always include code examples in your responses. Explain HTTP methods, status codes, and error handling clearly. Provide working code snippets that developers can copy and use immediately.",
+  "metadata": {
+    "name": "API Documentation Bot",
+    "description": "Specialized training data for API documentation chatbots - requires code examples"
+  }
+}

@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node-version: [18.x, 20.x, 22.x]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run linter
+      run: npm run lint --if-present
+    
+    - name: Run tests
+      run: npm test
+    
+    - name: Test scraper
+      run: npm run scrape -- https://docs.etherscan.io --output ./test-output
+    
+    - name: Verify output
+      run: |
+        test -f ./test-output/COMPLETE.md
+        test -f ./test-output/INDEX.md
+        test -f ./test-output/metadata.json
+
+  validate-discovery:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Validate AI Plugin Manifest
+      run: |
+        cat .well-known/ai-plugin.json | jq empty
+    
+    - name: Validate Tool Manifest
+      run: |
+        cat .well-known/ai-tool-manifest.json | jq empty
+    
+    - name: Validate OpenAPI Spec
+      uses: char0n/swagger-editor-validate@v1
+      with:
+        definition-file: .well-known/openapi.yaml

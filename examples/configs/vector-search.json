@@ -1,0 +1,21 @@
+{
+  "provider": "openai",
+  "model": "text-embedding-3-small",
+  "apiKey": "${OPENAI_API_KEY}",
+  "vectorStore": "local",
+  "vectorStoreConfig": {
+    "path": "./vector-search-index.json"
+  },
+  "features": {
+    "semanticSearch": true,
+    "hybridSearch": true,
+    "autoSuggest": true,
+    "relatedDocs": true
+  },
+  "chunkSize": 1000,
+  "chunkOverlap": 200,
+  "metadata": {
+    "name": "Documentation Vector Search",
+    "description": "Semantic search across documentation using OpenAI embeddings"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "format": "openai-jsonl",
+  "qaGeneration": {
+    "enabled": false
+  },
+  "validation": {
+    "enabled": true,
+    "splitRatio": 0.8
+  },
+  "quality": {
+    "minAnswerLength": 50,
+    "maxAnswerLength": 2000,
+    "requireCodeExamples": false
+  },
+  "systemPrompt": "You are a helpful documentation assistant. Provide clear, accurate, and detailed responses based on the documentation.",
+  "metadata": {
+    "name": "Manual Q&A Extraction (FREE)",
+    "description": "Extract existing FAQ sections and How-to guides from documentation - no AI costs!"
+  }
+}

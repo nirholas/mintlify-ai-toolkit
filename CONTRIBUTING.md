@@ -1,6 +1,6 @@
 # Contributing to Mintlify Documentation Scraper
 
-First off, thank you for considering contributing to this project! 🎉
+First off, thank you for considering contributing to this project!
 
 This tool helps developers build MCP servers faster by automating documentation scraping and tool generation. Your contributions help the entire AI agent development community.
 
@@ -74,10 +74,27 @@ Examples:
 1. **Fork** the repository
 2. **Create a branch** from `main`:
    ```bash
-   git checkout -b feature/amazing-feature
+   git checkout -b feature/new-feature
    ```
 3. **Make your changes**
 4. **Test thoroughly**:
+   ```bash
+   # Test basic scraping
+   npm run scrape-docs -- https://docs.etherscan.io --output ./test-output
+   
+   # Test Trieve API detection
+   npm run scrape-docs -- https://docs.privy.io --output ./test/privy
+   
+   # Test HTML scraping fallback
+   npm run scrape-docs -- https://docs.etherscan.io --no-api --output ./test/etherscan
+   
+   # Verify code blocks are preserved correctly
+   grep -A 10 '```' ./test-output/COMPLETE.md
+   
+   # Check for CSS/JS artifacts (should be none)
+   grep -i 'style\|script\|onclick' ./test-output/COMPLETE.md
+   ```
+5. **Verify output quality**:
    ```bash
    npm run test
    # Or test with a real site:
@@ -89,7 +106,7 @@ Examples:
    ```
 6. **Push** to your fork:
    ```bash
-   git push origin feature/amazing-feature
+   git push origin feature/new-feature
    ```
 7. **Open a Pull Request**
 
@@ -290,7 +307,7 @@ This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.
 
 ## 🙏 Thank You!
 
-Every contribution, no matter how small, helps make this tool better for the entire AI agent development community. Thank you for being part of this! 🚀
+Every contribution, no matter how small, helps make this tool better for the entire AI agent development community. Thank you for being part of this!
 
 ---
 

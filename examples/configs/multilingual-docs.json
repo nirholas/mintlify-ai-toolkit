@@ -1,0 +1,52 @@
+{
+  "$comment": "Configuration for scraping multilingual documentation with alternate links",
+  "index_uid": "multilingual-docs",
+  "start_urls": [
+    {
+      "url": "https://docs.example.com/en/",
+      "page_rank": 10,
+      "tags": ["english", "main"]
+    }
+  ],
+  "sitemap_urls": [
+    "https://docs.example.com/sitemap.xml"
+  ],
+  "sitemap_alternate_links": true,
+  "$comment": "This will also scrape /es/, /fr/, /de/ versions from sitemap alternate links",
+  "allowed_domains": [
+    "docs.example.com"
+  ],
+  "stop_urls": [
+    "/changelog",
+    "/blog"
+  ],
+  "selectors": {
+    "default": {
+      "lvl0": "h1, .page-title",
+      "lvl1": "h2",
+      "lvl2": "h3",
+      "text": "p, li",
+      "code": "pre code, .code-block"
+    }
+  },
+  "selectors_exclude": [
+    "nav",
+    "footer",
+    ".language-switcher",
+    ".sidebar",
+    "script",
+    "style"
+  ],
+  "output": {
+    "format": "markdown",
+    "structure": "per-page",
+    "include_metadata": true,
+    "preserve_code_blocks": true
+  },
+  "crawling": {
+    "max_concurrent": 4,
+    "delay_ms": 800,
+    "max_retries": 3,
+    "timeout_ms": 30000
+  }
+}

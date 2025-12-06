@@ -324,4 +324,6 @@ lens_query_publications
 - [ ] Required fields marked correctly
 - [ ] Descriptions reference GraphQL fields
 
-Built with ❤️ by [nich](https://x.com/nichxbt)👉[on Github](https://github.com/nirholas)
+---
+
+[View on GitHub](https://github.com/nirholas/mintlify-ai-toolkit)

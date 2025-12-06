@@ -1,22 +1,77 @@
 {
   "name": "@nirholas/mintlify-scraper",
-  "version": "1.0.0",
-  "description": "Scrape complete documentation from Mintlify sites and generate MCP tools, API clients, and more",
+  "version": "1.5.0",
+  "description": "Complete AI toolkit for documentation - Generate MCP servers, Mintlify sites, AI tool definitions, RAG chunks, TypeScript types, and more from any Mintlify docs.",
   "main": "./dist/index.js",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nirholas/mintlify-ai-toolkit.git"
+  },
+  "homepage": "https://github.com/nirholas/mintlify-ai-toolkit#readme",
+  "bugs": {
+    "url": "https://github.com/nirholas/mintlify-ai-toolkit/issues"
+  },
+  "author": {
+    "name": "nich",
+    "url": "https://x.com/nichxbt"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./scraper": "./dist/scraper.js",
+    "./mcp-generator": "./dist/mcp-generator.js",
+    "./mintlify-publisher": "./dist/mintlify-publisher.js",
+    "./ai-context-generator": "./dist/ai-context-generator.js",
+    "./ai-tool-generator": "./dist/ai-tool-generator.js",
+    "./rag-generator": "./dist/rag-generator.js",
+    "./type-generator": "./dist/type-generator.js",
+    "./code-extractor": "./dist/code-extractor.js",
+    "./vector-search": "./dist/vector-search.js",
+    "./chatbot-exporter": "./dist/chatbot-exporter.js"
+  },
   "bin": {
-    "mintlify-scraper": "./src/scraper.ts",
-    "mcp-generator": "./src/mcp-generator.ts",
-    "example-extractor": "./src/example-extractor.ts"
+    "mintlify-scraper": "./dist/scraper.js",
+    "mintlify-publisher": "./dist/mintlify-publisher.js",
+    "mcp-generator": "./dist/mcp-generator.js",
+    "generate-ai-context": "./dist/ai-context-generator.js",
+    "generate-ai-tools": "./dist/ai-tool-generator.js",
+    "generate-rag": "./dist/rag-generator.js",
+    "generate-types": "./dist/type-generator.js",
+    "extract-code": "./dist/code-extractor.js"
   },
   "scripts": {
     "scrape": "tsx src/scraper.ts",
+    "scrape-best": "tsx src/scraper.ts",
     "generate-mcp": "tsx src/mcp-generator.ts",
+    "docs-to-mcp": "tsx src/mcp-server-generator.ts",
+    "publish-mintlify": "tsx src/mintlify-publisher.ts",
     "extract-examples": "tsx src/example-extractor.ts",
-    "build": "tsup src/scraper.ts src/mcp-generator.ts src/example-extractor.ts --format esm,cjs --dts",
+    "generate-ai-context": "tsx src/ai-context-generator.ts",
+    "generate-ai-tools": "tsx src/ai-tool-generator.ts",
+    "generate-rag": "tsx src/rag-generator.ts",
+    "generate-types": "tsx src/type-generator.ts",
+    "extract-code": "tsx src/code-extractor.ts",
+    "create-vector-index": "tsx src/vector-search-cli.ts",
+    "search-docs": "tsx src/search-cli.ts",
+    "export-chatbot-data": "tsx src/chatbot-cli.ts",
+    "build": "tsup src/scraper.ts src/mcp-generator.ts src/example-extractor.ts src/mcp-server-generator.ts src/mintlify-publisher.ts src/ai-context-generator.ts src/ai-tool-generator.ts src/rag-generator.ts src/type-generator.ts src/code-extractor.ts --format esm,cjs --dts",
     "dev": "tsx watch src/scraper.ts",
     "test": "tsx src/scraper.ts https://docs.etherscan.io --output ./test-output"
   },
+  "files": [
+    "dist",
+    "src",
+    "templates",
+    "examples",
+    "README.md",
+    "LICENSE",
+    "INTEGRATION.md",
+    "AI-FEATURES.md"
+  ],
   "keywords": [
     "mintlify",
     "documentation",
@@ -24,7 +79,31 @@
     "mcp",
     "model-context-protocol",
     "api-client-generator",
-    "ai-tools"
+    "ai-tools",
+    "rag",
+    "vector-search",
+    "semantic-search",
+    "chatbot",
+    "gpt",
+    "claude",
+    "openai",
+    "anthropic",
+    "embeddings",
+    "fine-tuning",
+    "langchain",
+    "ai-agent",
+    "autonomous",
+    "knowledge-base"
+  ],
+    "vector-database",
+    "ai-context",
+    "typescript-generator",
+    "code-extractor",
+    "openai",
+    "langchain",
+    "anthropic",
+    "cursor",
+    "claude"
   ],
   "author": "nirholas",
   "license": "MIT",

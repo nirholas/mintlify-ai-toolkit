@@ -1,0 +1,39 @@
+User-agent: *
+Allow: /
+
+# AI Crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+# AI Discovery Files
+Allow: /.well-known/ai-plugin.json
+Allow: /.well-known/ai-tool-manifest.json
+Allow: /.well-known/openapi.yaml
+
+# Documentation
+Allow: /README.md
+Allow: /QUICKSTART-AI.md
+Allow: /VECTOR-SEARCH.md
+Allow: /CHATBOT-TRAINING.md
+Allow: /AI-AGENT-INTEGRATION.md
+
+# Sitemap
+Sitemap: https://nirholas.github.io/mintlify-ai-toolkit/sitemap.xml

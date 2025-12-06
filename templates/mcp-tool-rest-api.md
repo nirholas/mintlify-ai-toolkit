@@ -231,5 +231,6 @@ When parsing API docs, look for:
 - [ ] Enums defined where applicable
 - [ ] Examples would work in practice
 
+---
 
-Built with ❤️ by [nich](https://x.com/nichxbt)👉[on Github](https://github.com/nirholas)
+[View on GitHub](https://github.com/nirholas/mintlify-ai-toolkit)

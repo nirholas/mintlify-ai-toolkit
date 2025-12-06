@@ -1,0 +1,64 @@
+{
+  "$comment": "Configuration for scraping standard Mintlify documentation sites",
+  "index_uid": "mintlify-docs",
+  "start_urls": [
+    "https://docs.example.com/"
+  ],
+  "sitemap_urls": [
+    "https://docs.example.com/sitemap.xml"
+  ],
+  "stop_urls": [
+    "/changelog",
+    "/blog"
+  ],
+  "selectors": {
+    "default": {
+      "lvl0": {
+        "selector": ".docs-content h1, article h1",
+        "default_value": "Documentation"
+      },
+      "lvl1": ".docs-content h2, article h2",
+      "lvl2": ".docs-content h3, article h3",
+      "lvl3": ".docs-content h4, article h4",
+      "lvl4": ".docs-content h5, article h5",
+      "lvl5": ".docs-content h6, article h6",
+      "text": ".docs-content p, .docs-content li, article p, article li",
+      "code": "pre code, .code-block, .highlight, .hljs"
+    }
+  },
+  "selectors_exclude": [
+    "nav",
+    "footer",
+    ".sidebar",
+    ".nav-sidebar",
+    ".table-of-contents",
+    ".breadcrumbs",
+    ".navigation",
+    "script",
+    "style",
+    ".cookie-banner",
+    ".feedback-widget"
+  ],
+  "trieve": {
+    "enabled": true,
+    "$comment": "API key and dataset will be auto-detected"
+  },
+  "output": {
+    "format": "markdown",
+    "structure": "per-section",
+    "include_metadata": true,
+    "preserve_code_blocks": true
+  },
+  "crawling": {
+    "max_concurrent": 3,
+    "delay_ms": 1000,
+    "max_retries": 3,
+    "timeout_ms": 30000,
+    "skip_empty": true,
+    "follow_redirects": true
+  },
+  "progress": {
+    "save_state": true,
+    "state_file": ".scraper-state.json"
+  }
+}

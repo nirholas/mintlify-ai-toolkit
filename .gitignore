@@ -8,12 +8,18 @@ dist/
 build/
 *.js.map
 
-# Environment variables
+# Environment variables & secrets
 .env
 .env.local
 .env.*.local
 .env.development
 .env.production
+*.key
+*.pem
+*.cert
+*-secret.json
+*-private.json
+config.local.json
 
 # Logs
 logs/

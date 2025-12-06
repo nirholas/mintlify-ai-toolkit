@@ -1,0 +1,370 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Mintlify Documentation Scraper Configuration",
+  "description": "Configuration schema for the Mintlify documentation scraper with advanced selector and crawling options",
+  "type": "object",
+  "properties": {
+    "index_uid": {
+      "type": "string",
+      "description": "Unique identifier for this documentation scrape (used for output naming)",
+      "examples": ["my-docs", "api-reference"]
+    },
+    "start_urls": {
+      "description": "URLs to start crawling from",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "page_rank": {
+                "type": "number",
+                "description": "Priority/weight for this page (higher = more important)",
+                "minimum": 0,
+                "default": 1
+              },
+              "selectors_key": {
+                "type": "string",
+                "description": "Which selector set to use for this URL"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Tags to categorize this page"
+              }
+            },
+            "required": ["url"]
+          }
+        }
+      ]
+    },
+    "stop_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "URL patterns to exclude from crawling (regex supported)"
+    },
+    "sitemap_urls": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      },
+      "description": "Sitemap URLs to discover pages from"
+    },
+    "sitemap_alternate_links": {
+      "type": "boolean",
+      "default": false,
+      "description": "Also crawl alternate language versions from sitemap"
+    },
+    "allowed_domains": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Domains the scraper is allowed to access"
+    },
+    "selectors": {
+      "type": "object",
+      "description": "CSS selectors for extracting content",
+      "properties": {
+        "default": {
+          "$ref": "#/definitions/SelectorSet"
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/SelectorSet"
+      }
+    },
+    "selectors_exclude": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "CSS selectors for elements to remove before extraction",
+      "examples": [".footer", ".sidebar", "nav", ".ads"]
+    },
+    "scrape_start_urls": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to scrape content from start_urls"
+    },
+    "min_indexed_level": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 6,
+      "default": 0,
+      "description": "Minimum heading level required to index content"
+    },
+    "only_content_level": {
+      "type": "boolean",
+      "default": false,
+      "description": "Only extract content, not headings"
+    },
+    "js_render": {
+      "type": "boolean",
+      "default": false,
+      "description": "Use headless browser for JavaScript-rendered pages"
+    },
+    "js_wait": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "Seconds to wait for JavaScript to load (requires js_render)"
+    },
+    "authentication": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["none", "basic", "bearer", "apikey", "oauth2"],
+          "default": "none"
+        },
+        "username": {
+          "type": "string",
+          "description": "Username for basic auth"
+        },
+        "password": {
+          "type": "string",
+          "description": "Password for basic auth"
+        },
+        "token": {
+          "type": "string",
+          "description": "Bearer token or API key"
+        },
+        "header_name": {
+          "type": "string",
+          "description": "Custom header name for API key auth",
+          "default": "Authorization"
+        }
+      }
+    },
+    "trieve": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Try to use Trieve API for faster scraping"
+        },
+        "api_key": {
+          "type": "string",
+          "description": "Trieve API key (optional, will auto-detect if not provided)"
+        },
+        "dataset_id": {
+          "type": "string",
+          "description": "Trieve dataset ID (optional, will auto-detect if not provided)"
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "enum": ["markdown", "json", "both"],
+          "default": "markdown",
+          "description": "Output format for scraped content"
+        },
+        "structure": {
+          "type": "string",
+          "enum": ["single-file", "per-page", "per-section"],
+          "default": "per-section",
+          "description": "How to organize output files"
+        },
+        "include_metadata": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include metadata (title, url, date) in output"
+        },
+        "preserve_code_blocks": {
+          "type": "boolean",
+          "default": true,
+          "description": "Preserve exact code block formatting"
+        }
+      }
+    },
+    "crawling": {
+      "type": "object",
+      "properties": {
+        "max_concurrent": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 3,
+          "description": "Maximum concurrent requests"
+        },
+        "delay_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 1000,
+          "description": "Delay between requests in milliseconds"
+        },
+        "max_retries": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 3,
+          "description": "Maximum retry attempts for failed requests"
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "minimum": 1000,
+          "default": 30000,
+          "description": "Request timeout in milliseconds"
+        },
+        "skip_empty": {
+          "type": "boolean",
+          "default": true,
+          "description": "Skip pages with no content"
+        },
+        "follow_redirects": {
+          "type": "boolean",
+          "default": true,
+          "description": "Follow HTTP redirects"
+        }
+      }
+    },
+    "progress": {
+      "type": "object",
+      "properties": {
+        "save_state": {
+          "type": "boolean",
+          "default": true,
+          "description": "Save progress to allow resuming"
+        },
+        "state_file": {
+          "type": "string",
+          "default": ".scraper-state.json",
+          "description": "File to save progress state"
+        }
+      }
+    }
+  },
+  "required": ["start_urls"],
+  "definitions": {
+    "SelectorSet": {
+      "type": "object",
+      "properties": {
+        "lvl0": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/definitions/SelectorConfig"
+            }
+          ],
+          "description": "Main title selector (h1)"
+        },
+        "lvl1": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/definitions/SelectorConfig"
+            }
+          ],
+          "description": "Section title selector (h2)"
+        },
+        "lvl2": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/definitions/SelectorConfig"
+            }
+          ],
+          "description": "Subsection title selector (h3)"
+        },
+        "lvl3": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/definitions/SelectorConfig"
+            }
+          ],
+          "description": "Heading level 4"
+        },
+        "lvl4": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/definitions/SelectorConfig"
+            }
+          ],
+          "description": "Heading level 5"
+        },
+        "lvl5": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/definitions/SelectorConfig"
+            }
+          ],
+          "description": "Heading level 6"
+        },
+        "lvl6": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/definitions/SelectorConfig"
+            }
+          ],
+          "description": "Heading level 7"
+        },
+        "text": {
+          "type": "string",
+          "description": "Main content text selector"
+        },
+        "code": {
+          "type": "string",
+          "description": "Code block selector",
+          "default": "pre code, .code-block"
+        }
+      },
+      "required": ["lvl0", "text"]
+    },
+    "SelectorConfig": {
+      "type": "object",
+      "properties": {
+        "selector": {
+          "type": "string",
+          "description": "CSS selector"
+        },
+        "global": {
+          "type": "boolean",
+          "default": false,
+          "description": "Apply selector globally (outside main content)"
+        },
+        "default_value": {
+          "type": "string",
+          "description": "Default value if selector finds nothing"
+        }
+      },
+      "required": ["selector"]
+    }
+  }
+}
