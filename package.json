@@ -60,7 +60,7 @@
     "export-chatbot-data": "tsx src/chatbot-cli.ts",
     "build": "tsup src/scraper.ts src/mcp-generator.ts src/example-extractor.ts src/mcp-server-generator.ts src/mintlify-publisher.ts src/ai-context-generator.ts src/ai-tool-generator.ts src/rag-generator.ts src/type-generator.ts src/code-extractor.ts --format esm,cjs --dts",
     "dev": "tsx watch src/scraper.ts",
-    "test": "tsx src/scraper.ts https://docs.etherscan.io --output ./test-output"
+    "test": "npm run build"
   },
   "files": [
     "dist",
